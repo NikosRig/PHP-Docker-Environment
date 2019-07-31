@@ -1,0 +1,58 @@
+version: '3'
+services:
+
+    webserver:
+      build:
+        context: ./webserver
+        args:
+          GID: ${GID}
+          UID: ${UID}
+      container_name: webserver
+      networks:
+          devNet:
+            ipv4_address: 172.172.1.4
+      ports:
+        - 80:80
+      depends_on:
+        - db
+        - phpfpm
+      volumes:
+        - ${APPLICATION_PATH}:/home/develuser
+
+    db:
+      image: mariadb
+      container_name: db
+      volumes:
+        - dbdata:/var/lib/mysql
+      networks:
+          backendNet:
+      environment:
+        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        MYSQL_DATABASE: ${MYSQL_DATABASE}
+        MYSQL_USER: ${MYSQL_USER}
+        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
+    phpfpm:
+      build:
+        context: ./phpfpm
+        args:
+          GID: ${GID}
+          UID: ${UID}
+      container_name: phpfpm
+      volumes:
+        - ${APPLICATION_PATH}:/home/develuser
+      networks:
+          devNet:
+            ipv4_address: 172.172.1.5
+          backendNet:
+
+networks:
+  devNet:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.172.1.0/16
+  backendNet:
+
+volumes:
+  dbdata:
