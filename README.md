@@ -4,7 +4,7 @@ Lightweight PHP docker development environment
 
 A simple solution for php developers who want to keep their OS clean and safe.
 Every service runs in its own container and the database runs inside an isolated network so it has no contact with the outside world.
-Webserver and php are running in different containers so the webserver does not calling php's interpreter every time a request arrives, it provides it to phpfpm container only if needed 
+Webserver and php are running in different containers so the webserver does not calling php's interpreter every time a request arrives instead it provides it to phpfpm container only if needed 
 
 - Apache2
 - PHPfpm
@@ -23,7 +23,7 @@ You need to install docker and docker-compose.Please refer to the official pages
 
 ### Installing
 
-First change directory to PHPDockenv and open .env file for modifications
+First change directory to PHP-Docker-Environment and open .env file for modifications
 ```
 cd PHP-Docker-Environment && cp .env.example .env
 nano .env
