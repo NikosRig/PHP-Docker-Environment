@@ -85,15 +85,15 @@ docker-compose down
 
 ## Composer
 
-PHP Composer is by default installed in the php fpm container
-In order to use it you have first find php fpm container id
+PHP Composer is by default installed into the phpfpm container.
+In order to use it you have first find php fpm container id.
 
 ```
 docker ps -a
 ```
 
 Then you can execute your composer command as follows below.
-By default working directory is your project's path
+By default working directory is your project's path.
 
 ```
 docker exec 'your php fpm container id here' composer 'your command here'
