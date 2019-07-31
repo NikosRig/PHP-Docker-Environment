@@ -25,7 +25,7 @@ You need to install docker and docker-compose.Please refer to the official pages
 
 First change directory to PHPDockenv and open .env file for modifications
 ```
-cd PHPDockenv
+cd PHPDockenv && cp .env.example .env
 nano .env
 ```
 Then you have to replace the existing environment variables values with your own
