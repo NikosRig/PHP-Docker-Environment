@@ -74,7 +74,7 @@ docker-compose up --build
 Start docker-compose services
 
 ```
-docker-compose up
+docker-compose up -d
 ```
 
 Stop docker-compose services 
