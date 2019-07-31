@@ -18,15 +18,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends curl libmcrypt-
     && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
     && docker-php-ext-install imap \
     && pecl install mcrypt-1.0.2 \
-# Xdebug install and configuration
+# Xdebug install
     && pecl install xdebug-2.6.0 && docker-php-ext-enable xdebug  mcrypt \
-    && echo "xdebug.default_enable=0" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    && echo "xdebug.remote_enable=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    && echo "xdebug.remote_port=10000" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    && echo "xdebug.remote_handler=dbgp" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    && echo "xdebug_remote_host=localhost" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    && echo "xdebug.remote_autostart=0" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    && echo "xdebug.idekey=PHPSTORM" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
 # Change ownership and permissions to project folder
     && chown -R develuser:develgroup /home/develuser && chmod -R 775 /home/develuser
 
@@ -34,7 +27,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends curl libmcrypt-
 # Replace php.ini
 COPY php.ini /usr/local/etc/php/
 
-#COPY xdebug.ini /usr/local/etc/php/conf.d/
+# Copy xdebug configuration 
+COPY xdebug.ini /usr/local/etc/php/conf.d/
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- \
