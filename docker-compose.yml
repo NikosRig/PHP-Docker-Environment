@@ -10,7 +10,6 @@ services:
       container_name: webserver
       networks:
           devNet:
-            ipv4_address: 172.172.1.4
       ports:
         - 80:80
       depends_on:
@@ -18,6 +17,7 @@ services:
         - phpfpm
       volumes:
         - ${APPLICATION_PATH}:/home/develuser
+
 
     db:
       image: mariadb
@@ -43,16 +43,13 @@ services:
         - ${APPLICATION_PATH}:/home/develuser
       networks:
           devNet:
-            ipv4_address: 172.172.1.5
           backendNet:
-
 networks:
   devNet:
     driver: bridge
-    ipam:
-      config:
-        - subnet: 172.172.1.0/16
   backendNet:
+    driver: bridge
+
 
 volumes:
   dbdata:

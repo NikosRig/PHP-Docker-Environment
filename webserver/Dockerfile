@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends apache2
 #Enable apache required modules
 RUN a2enmod rewrite proxy proxy_fcgi proxy_http \
 #Add server name in configuration
-  && echo 'ServerName localhost' >> /etc/apache2/apache2.conf \
+  && echo 'ServerName mailman' >> /etc/apache2/apache2.conf \
 #Create group
   && groupadd develgroup -g $GID \
 #Create user
