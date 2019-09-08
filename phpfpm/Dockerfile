@@ -4,7 +4,7 @@ ARG UID
 ARG GID
 
 RUN apt-get update && apt-get install -y --no-install-recommends curl libmcrypt-dev libc-client-dev libkrb5-dev git \
-    zip unzip mariadb-client \
+    zip unzip mariadb-client libfreetype6-dev libjpeg62-turbo-dev libpng-dev \
     && rm -r /var/lib/apt/lists/* \
 # Change default phpfpm user and group
     && sed -i -e"s/^user\s=\swww-data/user = develuser/" /usr/local/etc/php-fpm.d/www.conf \
@@ -14,9 +14,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends curl libmcrypt-
 # Create user
     && useradd -ms /bin/bash develuser -u $UID -g $GID \
 # Install required modules
-    && docker-php-ext-install pdo_mysql \
+    && docker-php-ext-install pdo_mysql exif \
     && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
-    && docker-php-ext-install imap \
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-install imap gd \
     && pecl install mcrypt-1.0.1 \
 # Xdebug install
     && pecl install xdebug && docker-php-ext-enable mcrypt xdebug \
@@ -34,3 +35,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
 --install-dir=/usr/bin --filename=composer && chmod +x /usr/bin/composer
 
 WORKDIR /home/develuser
+
+EXPOSE 9999
+
+USER develuser
